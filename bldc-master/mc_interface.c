@@ -1558,7 +1558,7 @@ void mc_interface_fault_stop(mc_fault_code fault, bool is_second_motor, bool is_
 		case FAULT_CODE_FLASH_CORRUPTION_MC_CFG:
 		case FAULT_CODE_ENCODER_NO_MAGNET:
 		default:
-			continue;
+			break;
 	}
 	m_fault_stop_fault = fault;
 	m_fault_stop_is_second_motor = is_second_motor;
