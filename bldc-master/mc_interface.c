@@ -1527,6 +1527,39 @@ int mc_interface_try_input(void) {
 }
 
 void mc_interface_fault_stop(mc_fault_code fault, bool is_second_motor, bool is_isr) {
+	switch (mc_fault_code){
+		case FAULT_CODE_OVER_TEMP_FET:
+		case FAULT_CODE_OVER_TEMP_MOTOR:
+		case FAULT_CODE_ENCODER_SINCOS_ABOVE_MAX_AMPLITUDE:
+			//Ignore the above faults.
+			return;
+			break;
+		case FAULT_CODE_NONE :
+		case FAULT_CODE_OVER_VOLTAGE:
+		case FAULT_CODE_UNDER_VOLTAGE:
+		case FAULT_CODE_DRV:
+		case FAULT_CODE_ABS_OVER_CURRENT:
+		case FAULT_CODE_GATE_DRIVER_OVER_VOLTAGE:
+		case FAULT_CODE_GATE_DRIVER_UNDER_VOLTAGE:
+		case FAULT_CODE_MCU_UNDER_VOLTAGE:
+		case FAULT_CODE_BOOTING_FROM_WATCHDOG_RESET:
+		case FAULT_CODE_ENCODER_SPI:
+		case FAULT_CODE_ENCODER_SINCOS_BELOW_MIN_AMPLITUDE:
+		case FAULT_CODE_FLASH_CORRUPTION:
+		case FAULT_CODE_HIGH_OFFSET_CURRENT_SENSOR_1:
+		case FAULT_CODE_HIGH_OFFSET_CURRENT_SENSOR_2:
+		case FAULT_CODE_HIGH_OFFSET_CURRENT_SENSOR_3:
+		case FAULT_CODE_UNBALANCED_CURRENTS:
+		case FAULT_CODE_BRK:
+		case FAULT_CODE_RESOLVER_LOT:
+		case FAULT_CODE_RESOLVER_DOS:
+		case FAULT_CODE_RESOLVER_LOS:
+		case FAULT_CODE_FLASH_CORRUPTION_APP_CFG:
+		case FAULT_CODE_FLASH_CORRUPTION_MC_CFG:
+		case FAULT_CODE_ENCODER_NO_MAGNET:
+		default:
+			continue;
+	}
 	m_fault_stop_fault = fault;
 	m_fault_stop_is_second_motor = is_second_motor;
 
@@ -2408,7 +2441,7 @@ static THD_FUNCTION(fault_stop_thread, arg) {
  *
  * @param is_motor_2
  * true if motor2, false if motor1
- * 
+ *
  * @return
  * CRC16 (with crc field in struct temporarily set to zero).
  */
