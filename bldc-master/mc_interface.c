@@ -1527,7 +1527,7 @@ int mc_interface_try_input(void) {
 }
 
 void mc_interface_fault_stop(mc_fault_code fault, bool is_second_motor, bool is_isr) {
-	switch (mc_fault_code){
+	switch (fault){
 		case FAULT_CODE_OVER_TEMP_FET:
 		case FAULT_CODE_OVER_TEMP_MOTOR:
 		case FAULT_CODE_ENCODER_SINCOS_ABOVE_MAX_AMPLITUDE:
