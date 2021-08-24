@@ -309,6 +309,9 @@
 #define HW_LIM_DUTY_MAX			0.0, 0.99
 #define HW_LIM_TEMP_FET			-40.0, 110.0
 
+//disable temperature degrading
+#define MC_DISABLE_TEMPDEGRAD
+
 // Functions
 //#if defined(HW60_IS_MK3) || defined(HW60_IS_MK4) || defined(HW60_IS_MK5)
 //bool hw_sample_shutdown_button(void);

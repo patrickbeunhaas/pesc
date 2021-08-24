@@ -2072,8 +2072,12 @@ static void update_override_limits(volatile motor_if_state_t *motor, volatile mc
 
 	lo_max = utils_min_abs(lo_max, lo_max_rpm);
 	lo_max = utils_min_abs(lo_max, lo_min_rpm);
+
+	#ifndef MC_DISABLE_TEMPDEGRAD
 	lo_max = utils_min_abs(lo_max, lo_fet_temp_accel);
 	lo_max = utils_min_abs(lo_max, lo_motor_temp_accel);
+	#endif
+
 	lo_max = utils_min_abs(lo_max, lo_max_duty);
 
 	if (lo_max < conf->cc_min_current) {
