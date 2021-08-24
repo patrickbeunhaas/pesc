@@ -2211,10 +2211,15 @@ static void run_timer_tasks(volatile motor_if_state_t *motor) {
 			motor->m_conf.foc_sensor_mode == FOC_SENSOR_MODE_ENCODER &&
 			motor->m_conf.m_sensor_port_mode == SENSOR_PORT_MODE_SINCOS) {
 
-		if (encoder_sincos_get_signal_below_min_error_rate() > 0.05)
-			mc_interface_fault_stop(FAULT_CODE_ENCODER_SINCOS_BELOW_MIN_AMPLITUDE, !is_motor_1, false);
-		if (encoder_sincos_get_signal_above_max_error_rate() > 0.05)
-			mc_interface_fault_stop(FAULT_CODE_ENCODER_SINCOS_ABOVE_MAX_AMPLITUDE, !is_motor_1, false);
+			if((encoder_sincos_get_signal_above_max_error_rate() > 0.05) || (encoder_sincos_get_signal_below_min_error_rate() > 0.05) ){
+				//An encoder error aocured. Do not stop the motor, but chance the operaiton mode to sensorless.
+				motor->m_conf.foc_sensor_mode = FOC_SENSOR_MODE_SENSORLESS;
+			}
+
+		//if (encoder_sincos_get_signal_below_min_error_rate() > 0.05) 
+		//	mc_interface_fault_stop(FAULT_CODE_ENCODER_SINCOS_BELOW_MIN_AMPLITUDE, !is_motor_1, false);
+		//if (encoder_sincos_get_signal_above_max_error_rate() > 0.05)
+		//	mc_interface_fault_stop(FAULT_CODE_ENCODER_SINCOS_ABOVE_MAX_AMPLITUDE, !is_motor_1, false);
 	}
 
 	if(motor->m_conf.motor_type == MOTOR_TYPE_FOC &&
